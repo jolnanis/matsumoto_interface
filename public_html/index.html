@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />  
+        <link href="index.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <div>TODO write content</div>
+        <div id="mapid"></div>
+        <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+        <script src="jiyugaoka-data.js" type="text/javascript"></script>
+        <script>
+            /* 
+             * To change this license header, choose License Headers in Project Properties.
+             * To change this template file, choose Tools | Templates
+             * and open the template in the editor.
+             */
+
+
+           
+            var mymap = L.map('mapid').setView([35.60853, 139.67129], 16);
+            L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                maxZoom: 21,
+                id: 'your.mapbox.project.id',
+                accessToken: 'your.mapbox.public.access.token'
+            }).addTo(mymap);
+
+
+            function doStylejiyuugaokaosm0(feature) {
+                return {
+                    weight: 1.04,
+                    color: '#000000',
+                    fillColor: '#000000',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    opacity: 0.0,
+                    fillOpacity: 1.0
+                };
+            }
+            function zoomToFeature(e) {
+                map.fitBounds(e.target.getBounds());
+            }
+            function highlightFeature(e) {
+                var layer = e.target;
+
+                layer.setStyle({
+                    fillColor: '#666'
+                });
+
+                if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                    layer.bringToFront();
+                }
+            }
+            function resetHighlight(e) {
+                
+                var layer = e.target;
+                layer.setStyle({
+                    fillColor: '#000'
+                });
+
+            }
+            function  each_feature_jiyuugaokaosm0(feature, layer) {
+                var popupContent = "<b>osm_id</b>: " + feature.properties['osm_id'];
+                layer.bindPopup(popupContent);
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetHighlight,
+                    click: zoomToFeature
+                });
+            }
+
+            L.geoJSON(json_jiyuugaokaosm0, {
+                style: doStylejiyuugaokaosm0,
+                onEachFeature: each_feature_jiyuugaokaosm0
+            }).addTo(mymap);
+        </script>
+    </body>
+</html>
